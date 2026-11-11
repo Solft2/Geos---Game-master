@@ -1,0 +1,14 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1794322122
+README.md::TextFile::-1::1794260099::0::1::::<><><>0<>0<><>::
+::res://Scenes/::1794263333
+Main.tscn::PackedScene::-1::1794322072::0::1::::<><><>0<>0<><>::res://scripts/main.gd<>res://Scenes/Player.tscn<>res://scripts/material.gd
+Material.tscn::PackedScene::-1::1794262608::0::1::::<><><>0<>0<><>::res://scripts/material.gd
+Menu.tscn::PackedScene::8299144421305694920::1794263333::0::1::::<><><>0<>0<><>::uid://dvxc8gh4vy165::::res://scripts/menu.gd
+Player.tscn::PackedScene::-1::1794262608::0::1::::<><><>0<>0<><>::res://scripts/player.gd
+Tutorial.tscn::PackedScene::-1::1794261860::0::1::::<><><>0<>0<><>::
+::res://scripts/::1794262184
+main.gd::GDScript::1745160081944477430::1794263634::0::1::::<>Node2D<><>0<>0<><>::
+material.gd::GDScript::1345067958232483532::1794263634::0::1::::<>Area2D<><>0<>0<><>::
+menu.gd::GDScript::8680889148306149140::1794261862::0::1::::<>Control<><>0<>0<><>::
+player.gd::GDScript::6909897830960976149::1794263634::0::1::::<>CharacterBody2D<><>0<>0<><>::

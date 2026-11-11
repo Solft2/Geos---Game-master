@@ -1,0 +1,230 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Player.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/material.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_Exit"]
+size = Vector2(80, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_Ground"]
+size = Vector2(1400, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_Item"]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_SmallPlatform"]
+size = Vector2(130, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_LargePlatform"]
+size = Vector2(220, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_Hazard"]
+size = Vector2(220, 40)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(180, 460)
+
+[node name="FerroItem" type="Area2D" parent="."]
+position = Vector2(1100, 450)
+script = ExtResource("3")
+item_name = "Ferro"
+scientific_info = "O ferro é um metal abundante e muito importante na estrutura da cápsula."
+repair_info = "Útil para reforçar a estrutura e os circuitos da cápsula."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FerroItem"]
+shape = SubResource("CircleShape2D_Item")
+
+[node name="Body" type="ColorRect" parent="FerroItem"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(1, 0.2, 0.2, 1)
+
+[node name="NichelItem" type="Area2D" parent="."]
+position = Vector2(520, 450)
+script = ExtResource("3")
+item_name = "Níquel"
+scientific_info = "O níquel ajuda em resistência e endurecimento de materiais metálicos."
+repair_info = "Útil para reforçar ligas e conexões do sistema de reparo."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NichelItem"]
+shape = SubResource("CircleShape2D_Item")
+
+[node name="Body" type="ColorRect" parent="NichelItem"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.6, 0.2, 1, 1)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HeartsLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 12.0
+offset_right = -20.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(1, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 30
+text = "♥ ♥ ♥"
+horizontal_alignment = 2
+
+[node name="ScanPanel" type="Panel" parent="HUD"]
+offset_right = 360.0
+offset_bottom = 140.0
+
+[node name="ScanLabel" type="Label" parent="HUD/ScanPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+text = "GEOS SCAN\nAproxime-se de um material e pressione Z."
+autowrap_mode = 3
+
+[node name="InventoryLabel" type="Label" parent="HUD"]
+offset_left = 10.0
+offset_top = 170.0
+offset_right = 260.0
+offset_bottom = 320.0
+text = "MATERIAIS COLETADOS\n"
+autowrap_mode = 3
+
+[node name="ObjectiveLabel" type="Label" parent="HUD"]
+offset_left = 10.0
+offset_top = 330.0
+offset_right = 360.0
+offset_bottom = 420.0
+text = "OBJETIVO: Colete 1 ferro e 1 niquel."
+autowrap_mode = 3
+
+[node name="PickupDialog" type="Panel" parent="HUD"]
+visible = false
+modulate = Color(1, 1, 1, 0.9)
+offset_left = 220.0
+offset_top = 120.0
+offset_right = 1060.0
+offset_bottom = 420.0
+
+[node name="TitleLabel" type="Label" parent="HUD/PickupDialog"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 820.0
+offset_bottom = 60.0
+text = "Coletar material?"
+
+[node name="DetailsLabel" type="Label" parent="HUD/PickupDialog"]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 70.0
+offset_right = 820.0
+offset_bottom = 250.0
+text = "Informacoes do material apareceram aqui."
+autowrap_mode = 3
+
+[node name="ConfirmButton" type="Button" parent="HUD/PickupDialog"]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 260.0
+offset_right = 640.0
+offset_bottom = 310.0
+text = "Confirmar"
+
+[node name="CancelButton" type="Button" parent="HUD/PickupDialog"]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 260.0
+offset_right = 800.0
+offset_bottom = 310.0
+text = "Cancelar"
+
+[node name="Exit" type="Area2D" parent="."]
+position = Vector2(80, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit"]
+shape = SubResource("RectangleShape2D_Exit")
+
+[node name="ColorRect" type="ColorRect" parent="Exit"]
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 60.0
+color = Color(0.5, 0.5, 1, 1)
+
+[node name="SmallPlatform1" type="StaticBody2D" parent="."]
+position = Vector2(500, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallPlatform1"]
+shape = SubResource("RectangleShape2D_SmallPlatform")
+
+[node name="ColorRect" type="ColorRect" parent="SmallPlatform1"]
+offset_left = -65.0
+offset_top = -10.0
+offset_right = 65.0
+offset_bottom = 10.0
+color = Color(0.45, 0.55, 0.65, 1)
+
+[node name="SmallPlatform2" type="StaticBody2D" parent="."]
+position = Vector2(650, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SmallPlatform2"]
+shape = SubResource("RectangleShape2D_SmallPlatform")
+
+[node name="ColorRect" type="ColorRect" parent="SmallPlatform2"]
+offset_left = -65.0
+offset_top = -10.0
+offset_right = 65.0
+offset_bottom = 10.0
+color = Color(0.45, 0.55, 0.65, 1)
+
+[node name="LargePlatform" type="StaticBody2D" parent="."]
+position = Vector2(900, 350)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LargePlatform"]
+shape = SubResource("RectangleShape2D_LargePlatform")
+
+[node name="ColorRect" type="ColorRect" parent="LargePlatform"]
+offset_left = -110.0
+offset_top = -10.0
+offset_right = 110.0
+offset_bottom = 10.0
+color = Color(0.45, 0.55, 0.65, 1)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(640, 0)
+shape = SubResource("RectangleShape2D_Ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1280.0
+offset_bottom = 40.0
+color = Color(0.2, 0.4, 0.2, 1)
+
+[node name="Hazard" type="Area2D" parent="."]
+position = Vector2(900, 480)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hazard"]
+shape = SubResource("RectangleShape2D_Hazard")
+
+[node name="ColorRect" type="ColorRect" parent="Hazard"]
+offset_left = -110.0
+offset_top = 0.0
+offset_right = 110.0
+offset_bottom = 40.0
+color = Color(0.9, 0.08, 0.08, 1)
