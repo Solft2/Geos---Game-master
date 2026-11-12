@@ -138,3 +138,65 @@ func _on_exit_body_entered(body: Node2D) -> void:
         $HUD/ScanPanel/ScanLabel.text = (
             "Ainda faltam materiais para completar a missao."
         )
+----------------------+++++++++++++++++============================
+
+extends Node2D
+
+var collected_items: Dictionary = {}
+
+func _ready() -> void:
+
+    $Player.red_box_opened.connect(_on_red_box_opened)
+    $Player.blue_box_opened.connect(_on_blue_box_opened)
+    $Player.material_collected.connect(_on_material_collected)
+
+    # Esconde as caixas no início
+    $HUD/RedPanel.hide()
+    $HUD/BluePanel.hide()
+
+    $HUD/ObjectiveLabel.text = "OBJETIVO: Investigue as amostras!"
+
+    update_inventory()
+
+
+func _on_red_box_opened(message: String) -> void:
+
+    if message.is_empty():
+        $HUD/RedPanel.hide()
+        return
+
+    $HUD/RedPanel.show()
+    $HUD/RedLabel.text = message
+
+
+func _on_blue_box_opened(message: String) -> void:
+
+    if message.is_empty():
+        $HUD/BluePanel.hide()
+        return
+
+    $HUD/BluePanel.show()
+    $HUD/BlueLabel.text = message
+
+
+func _on_material_collected(item_name: String) -> void:
+
+    collected_items[item_name] = (
+        collected_items.get(item_name, 0) + 1
+    )
+
+    update_inventory()
+
+
+func update_inventory() -> void:
+
+    var inventory_text = "AMOSTRAS COLETADAS\n"
+
+    for item_name in collected_items:
+        inventory_text += (
+            item_name + ": " +
+            str(collected_items[item_name]) + "\n"
+        )
+
+    $HUD/InventoryLabel.text = inventory_text
+
