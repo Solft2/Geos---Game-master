@@ -32,6 +32,8 @@ position = Vector2(180, 460)
 position = Vector2(1100, 450)
 script = ExtResource("3")
 item_name = "Ferro"
+material_id = 1
+info_box_color = Color(1, 0, 0, 1)
 scientific_info = "O ferro é um metal abundante e muito importante na estrutura da cápsula."
 repair_info = "Útil para reforçar a estrutura e os circuitos da cápsula."
 
@@ -43,12 +45,14 @@ offset_left = -16.0
 offset_top = -16.0
 offset_right = 16.0
 offset_bottom = 16.0
-color = Color(1, 0.2, 0.2, 1)
+color = Color(0.2, 0.8, 0.25, 1)
 
 [node name="NichelItem" type="Area2D" parent="."]
 position = Vector2(520, 450)
 script = ExtResource("3")
 item_name = "Níquel"
+material_id = 2
+info_box_color = Color(0, 0.15, 1, 1)
 scientific_info = "O níquel ajuda em resistência e endurecimento de materiais metálicos."
 repair_info = "Útil para reforçar ligas e conexões do sistema de reparo."
 
@@ -60,7 +64,70 @@ offset_left = -16.0
 offset_top = -16.0
 offset_right = 16.0
 offset_bottom = 16.0
-color = Color(0.6, 0.2, 1, 1)
+color = Color(0.2, 0.8, 0.25, 1)
+
+[node name="AcoItem" type="Area2D" parent="."]
+position = Vector2(650, 380)
+script = ExtResource("3")
+item_name = "Aço"
+material_id = 3
+info_box_color = Color(1, 0, 0, 1)
+useful_for_repair = true
+makes_sense_in_core = true
+scientific_info = "O aço é uma liga metálica formada principalmente por ferro e carbono."
+repair_info = "Pode ser usado para reforçar estruturas da cápsula."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AcoItem"]
+shape = SubResource("CircleShape2D_Item")
+
+[node name="Body" type="ColorRect" parent="AcoItem"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.9, 0.2, 0.2, 1)
+
+[node name="VidroItem" type="Area2D" parent="."]
+position = Vector2(900, 310)
+script = ExtResource("3")
+item_name = "Vidro"
+material_id = 4
+info_box_color = Color(1, 0, 0, 1)
+useful_for_repair = false
+makes_sense_in_core = false
+scientific_info = "O vidro é feito principalmente de sílica e pode ser transparente."
+repair_info = "Não é necessário para o reparo da cápsula."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VidroItem"]
+shape = SubResource("CircleShape2D_Item")
+
+[node name="Body" type="ColorRect" parent="VidroItem"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.9, 0.2, 0.2, 1)
+
+[node name="NaveItem" type="Area2D" parent="."]
+position = Vector2(300, 450)
+script = ExtResource("3")
+item_name = "Pedaço da nave"
+material_id = 5
+info_box_color = Color(0, 0.15, 1, 1)
+useful_for_repair = true
+makes_sense_in_core = false
+scientific_info = "Este fragmento pertence à cápsula exploradora."
+repair_info = "Pode ajudar a identificar ou substituir uma parte danificada da nave."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NaveItem"]
+shape = SubResource("CircleShape2D_Item")
+
+[node name="Body" type="ColorRect" parent="NaveItem"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.9, 0.2, 0.2, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -111,7 +178,7 @@ autowrap_mode = 3
 
 [node name="PickupDialog" type="Panel" parent="HUD"]
 visible = false
-modulate = Color(1, 1, 1, 0.9)
+modulate = Color(1, 1, 1, 1)
 offset_left = 220.0
 offset_top = 120.0
 offset_right = 1060.0
@@ -130,25 +197,35 @@ layout_mode = 1
 offset_left = 20.0
 offset_top = 70.0
 offset_right = 820.0
-offset_bottom = 250.0
+offset_bottom = 225.0
 text = "Informacoes do material apareceram aqui."
 autowrap_mode = 3
 
 [node name="ConfirmButton" type="Button" parent="HUD/PickupDialog"]
 layout_mode = 0
-offset_left = 500.0
-offset_top = 260.0
-offset_right = 640.0
-offset_bottom = 310.0
+offset_left = 20.0
+offset_top = 240.0
+offset_right = 160.0
+offset_bottom = 290.0
 text = "Confirmar"
 
 [node name="CancelButton" type="Button" parent="HUD/PickupDialog"]
 layout_mode = 0
-offset_left = 660.0
-offset_top = 260.0
-offset_right = 800.0
-offset_bottom = 310.0
+offset_left = 180.0
+offset_top = 240.0
+offset_right = 320.0
+offset_bottom = 290.0
 text = "Cancelar"
+
+[node name="MaterialIdLabel" type="Label" parent="HUD/PickupDialog"]
+layout_mode = 0
+offset_left = 740.0
+offset_top = 245.0
+offset_right = 820.0
+offset_bottom = 285.0
+text = "ID: 1"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Exit" type="Area2D" parent="."]
 position = Vector2(80, 440)

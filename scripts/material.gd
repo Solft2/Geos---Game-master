@@ -2,8 +2,10 @@
 extends Area2D
 
 @export var item_name: String = "Ferro"
+@export var material_id: int = 0
 @export var useful_for_repair: bool = true
 @export var makes_sense_in_core: bool = true
+@export var info_box_color: Color = Color(1, 0.2, 0.2, 1)
 @export_multiline var scientific_info: String = ""
 @export_multiline var repair_info: String = ""
 
@@ -41,44 +43,6 @@ func confirm_pickup(player: Node) -> void:
         + "Presenca no nucleo: " + location_text + "\n"
         + "Informacao cientifica: " + scientific_info
     )
--------------------------------------- +++++++ -------------------------------------
-
-extends Area2D
-
-@export var item_name: String = "Ferro"
-
-@export_multiline var red_info: String = """
-AMOSTRA ENCONTRADA!
-
-Foi identificado um material metálico.
-Ele pode estar relacionado à composição
-do núcleo terrestre.
-
-Faça a análise inicial!
-"""
-
-@export_multiline var blue_info: String = """
-ANÁLISE AVANÇADA!
-
-O material apresenta propriedades
-magnéticas e pode participar da
-produção de ligas metálicas.
-
-Consulte o manual para descobrir
-qual é o material!
-"""
-
-func _ready() -> void:
-    add_to_group("materials")
-
-
-func interact(player: Node) -> void:
-    player.start_investigation(self)
-
-
-func collect() -> void:
-    queue_free()
     player.scan_message.emit(report)
     player.add_material(item_name)
     queue_free()
-
