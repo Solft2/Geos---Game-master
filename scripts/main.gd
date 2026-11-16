@@ -1,7 +1,7 @@
 
 extends Node2D
 
-const MAX_LIVES: int = 3
+const MAX_LIVES: int = 5
 
 var collected_items: Dictionary = {}
 var required_items: Dictionary = {
@@ -15,6 +15,7 @@ func _ready() -> void:
 	$Player.scan_message.connect(_on_scan_message)
 	$Player.material_collected.connect(_on_material_collected)
 	$Player.lives_changed.connect(_on_player_lives_changed)
+	$CountdownTimer.timeout.connect(_on_countdown_timeout)
 
 	$Exit.body_entered.connect(_on_exit_body_entered)
 	$Hazard.body_entered.connect(_on_hazard_body_entered)
@@ -22,12 +23,36 @@ func _ready() -> void:
 	$HUD/PickupDialog/CancelButton.pressed.connect(_on_pickup_canceled)
 
 	_on_player_lives_changed($Player.lives)
+	$CountdownTimer.start()
+	_update_countdown_display()
 	$HUD/ScanPanel/ScanLabel.text = (
 		"GEOS SCAN\nAproxime-se de um material e pressione Z."
 	)
 
 	hide_pickup_dialog()
 	update_inventory()
+
+
+func _process(_delta: float) -> void:
+	_update_countdown_display()
+
+
+func _update_countdown_display() -> void:
+	var seconds_left := ceili($CountdownTimer.time_left)
+	var minutes := int(seconds_left / 60)
+	var seconds := seconds_left % 60
+	$HUD/CountdownLabel.text = "%d:%02d" % [minutes, seconds]
+
+
+func _on_countdown_timeout() -> void:
+	$Player.take_damage(true)
+
+	if $Player.lives > 0:
+		$CountdownTimer.start()
+	else:
+		$HUD/CountdownLabel.text = "0:00"
+
+	_update_countdown_display()
 
 
 func _on_scan_message(message: String) -> void:
@@ -41,6 +66,9 @@ func _on_player_lives_changed(lives: int) -> void:
 		hearts += "♥ " if index < lives else "♡ "
 
 	$HUD/HeartsLabel.text = hearts.strip_edges()
+	if lives <= 0:
+		$CountdownTimer.stop()
+		$HUD/CountdownLabel.text = "0:00"
 
 
 func _on_hazard_body_entered(body: Node2D) -> void:

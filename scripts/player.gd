@@ -8,7 +8,7 @@ signal lives_changed(lives: int)
 @export var speed: float = 220.0
 @export var jump_velocity: float = -380.0
 
-const MAX_LIVES: int = 3
+const MAX_LIVES: int = 5
 
 var gravity: float = 980.0
 var nearby_items: Array[Area2D] = []
@@ -91,8 +91,8 @@ func has_material(item_name: String) -> bool:
 	return inventory.get(item_name, 0) > 0
 
 
-func take_damage() -> void:
-	if lives <= 0 or damage_cooldown > 0.0:
+func take_damage(ignore_cooldown: bool = false) -> void:
+	if lives <= 0 or (damage_cooldown > 0.0 and not ignore_cooldown):
 		return
 
 	lives -= 1
